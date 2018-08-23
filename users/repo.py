@@ -1,15 +1,20 @@
+from abc import ABCMeta, abstractmethod
 from firebase import firebase
 
 
 class IUserRepo(object):
+    __metaclass__ = ABCMeta
+
+    @abstractmethod
     def get_all(self):
         pass
 
+    @abstractmethod
     def create(self, user):
         pass
 
 
-class UserRepo(IUserRepo):
+class FirebaseUserRepo(IUserRepo):
     FIREBASE_URL = "https://dating-app-206bc.firebaseio.com/rest"
 
     def __init__(self):
