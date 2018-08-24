@@ -2,7 +2,8 @@ class User(object):
     def __init__(self,
                  username=None,
                  first_name=None,
-                 last_name=None):
+                 last_name=None,
+                 **kwargs):
         self._username = username
         self._first_name = first_name
         self._last_name = last_name
