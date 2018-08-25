@@ -5,6 +5,7 @@ from unittest import TestCase
 class TestUser(TestCase):
     def test_init(self):
         data = {
+            "id": "123",
             "username": "username",
             "first_name": "first",
             "last_name": "last",
@@ -16,6 +17,7 @@ class TestUser(TestCase):
         self.assertDictEqual(
             user.to_json(),
             {
+                "id": "123",
                 "username": "username",
                 "first_name": "first",
                 "last_name": "last"
