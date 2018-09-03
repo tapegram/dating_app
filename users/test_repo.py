@@ -8,8 +8,19 @@ from unittest import TestCase
 
 class DummyClient(IUserDataClient):
     def __init__(self):
+        self.get_called = 0
         self.get_all_called = 0
         self.create_called = 0
+
+    def get(self, id):
+        self.get_called += 1
+        return {
+            id: {
+                "username": "username",
+                "first_name": "first",
+                "last_name": "last",
+            },
+        }
 
     def get_all(self):
         self.get_all_called += 1
@@ -58,3 +69,18 @@ class TestRepo(TestCase):
         repo.create(user)
 
         self.assertEqual(client.create_called, 1)
+
+    def test_get(self):
+        client = DummyClient()
+        repo = UserRepo(client)
+        user = repo.get("user_id")
+
+        self.assertIsInstance(user, User)
+
+        user_json = user.to_json()
+        self.assertEqual(user_json["id"], "user_id")
+        self.assertEqual(user_json["username"], "username")
+        self.assertEqual(user_json["first_name"], "first")
+        self.assertEqual(user_json["last_name"], "last")
+
+        self.assertEqual(client.get_called, 1)
