@@ -25,3 +25,10 @@ def get_all_users():
     ]
 
     return json.dumps(users_json)
+
+@app.route('/api/users/<user_id>', methods=["GET"])
+def get_user(user_id):
+    repo = UserRepo(FirebaseUserDataClient())
+    user = repo.get(user_id)
+
+    return json.dumps(user.to_json())

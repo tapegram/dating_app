@@ -42,8 +42,7 @@ class UserRepo(object):
         self._client = client
 
     def get(self, id):
-        resp = self._client.get(id)
-        user_json = resp[id]
+        user_json = self._client.get(id)
         return User(id=id, **user_json)
 
     def get_all(self):

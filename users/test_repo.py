@@ -15,11 +15,9 @@ class DummyClient(IUserDataClient):
     def get(self, id):
         self.get_called += 1
         return {
-            id: {
-                "username": "username",
-                "first_name": "first",
-                "last_name": "last",
-            },
+            "username": "username",
+            "first_name": "first",
+            "last_name": "last",
         }
 
     def get_all(self):
