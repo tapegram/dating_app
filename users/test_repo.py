@@ -11,6 +11,8 @@ class DummyClient(IUserDataClient):
         self.get_called = 0
         self.get_all_called = 0
         self.create_called = 0
+        self.delete_called = 0
+        self.delete_called_with = None
 
     def get(self, id):
         self.get_called += 1
@@ -32,6 +34,10 @@ class DummyClient(IUserDataClient):
 
     def create(self, user):
         self.create_called += 1
+
+    def delete(self, user_id):
+        self.delete_called += 1
+        self.delete_called_with = user_id
 
 
 class TestRepo(TestCase):
@@ -82,3 +88,12 @@ class TestRepo(TestCase):
         self.assertEqual(user_json["last_name"], "last")
 
         self.assertEqual(client.get_called, 1)
+
+    def test_delete(self):
+        client = DummyClient()
+        repo = UserRepo(client)
+        repo.delete("deletetest")
+
+        self.assertEqual(client.delete_called, 1)
+        self.assertEqual(client.delete_called_with, "deletetest")
+        
