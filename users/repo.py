@@ -20,6 +20,10 @@ class IUserDataClient(object):
     def create(self, user):
         pass
 
+    @abstractmethod
+    def delete(self, user_id):
+        pass
+
 
 class FirebaseUserDataClient(IUserDataClient):
     FIREBASE_URL = "https://dating-app-206bc.firebaseio.com/rest"
@@ -35,6 +39,9 @@ class FirebaseUserDataClient(IUserDataClient):
 
     def create(self, user):
         return self._firebase.post("/users", user_json)
+
+    def delete(self, user_id):
+        self._firebase.delete("/users", user_id)
 
 
 class UserRepo(object):
@@ -56,3 +63,7 @@ class UserRepo(object):
     def create(self, user):
         user_json = user.to_json()
         self._client.create(user_json)
+
+    def delete(self, user_id):
+        self._client.delete(user_id)
+

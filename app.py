@@ -32,3 +32,10 @@ def get_user(user_id):
     user = repo.get(user_id)
 
     return json.dumps(user.to_json())
+
+@app.route('/api/users/<user_id>', methods=["DELETE"])
+def delete_user(user_id):
+    repo = UserRepo(FirebaseUserDataClient())
+    user = repo.delete(user_id)
+
+    return "Success"
