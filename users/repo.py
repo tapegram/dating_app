@@ -9,6 +9,10 @@ class IUserDataClient(object):
     __metaclass__ = ABCMeta
 
     @abstractmethod
+    def get(self, id):
+        pass
+
+    @abstractmethod
     def get_all(self):
         pass
 
@@ -23,6 +27,9 @@ class FirebaseUserDataClient(IUserDataClient):
     def __init__(self):
         self._firebase = firebase.FirebaseApplication(self.FIREBASE_URL, None)
 
+    def get(self, id):
+        return self._firebase.get("/users", id)
+
     def get_all(self):
         return self._firebase.get("/users", None)
 
@@ -33,6 +40,10 @@ class FirebaseUserDataClient(IUserDataClient):
 class UserRepo(object):
     def __init__(self, client):
         self._client = client
+
+    def get(self, id):
+        user_json = self._client.get(id)
+        return User(id=id, **user_json)
 
     def get_all(self):
         users_json = self._client.get_all()
